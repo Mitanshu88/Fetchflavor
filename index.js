@@ -29,6 +29,3 @@ app.get("/", (req, res) => {
 
 /* ❗ DO NOT app.listen() ON VERCEL */
 module.exports = app;
-app.get("/", (req, res) => {
-  res.send("API is running");
-});
