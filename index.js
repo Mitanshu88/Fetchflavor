@@ -22,8 +22,5 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/user', userRoutes);
-
-// Start Server
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// ADD THIS AT THE VERY END:
+module.exports = app;
