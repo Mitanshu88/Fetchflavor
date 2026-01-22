@@ -10,22 +10,29 @@ const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
-/* 🔥 CONNECT DATABASE (SAFE FOR SERVERLESS) */
-connectDB();
-
 /* 🔧 MIDDLEWARE */
 app.use(cors());
 app.use(bodyParser.json());
+
+/* 🔥 ENSURE DB CONNECTED BEFORE ROUTES */
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error("DB connection failed:", err);
+    res.status(500).json({ message: "Database connection failed" });
+  }
+});
 
 /* 🚀 ROUTES */
 app.use("/api/auth", authRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/user", userRoutes);
 
-/* ✅ ROOT TEST ROUTE */
+/* ✅ ROOT */
 app.get("/", (req, res) => {
   res.send("API is running");
 });
 
-/* ❗ DO NOT app.listen() ON VERCEL */
 module.exports = app;
